@@ -3,23 +3,23 @@
         <a class="logo">Simbok</a>
         <ul>
             <li v-if="currentRole === 'admin'">
-                <a href="#" @click.prevent="showComponent('users')">
-                    <i class="fas fa-home"></i> Users
+                <a href="#" @click.prevent="showComponent('users')" class="nav-link">
+                    <i class="bi bi-house-door"></i> Users
                 </a>
             </li>
             <li>
-                <a href="#" @click.prevent="showComponent('items')">
-                    <i class="fas fa-box"></i> Items
+                <a href="#" @click.prevent="showComponent('items')" class="nav-link">
+                    <i class="bi bi-box"></i> Items
                 </a>
             </li>
             <li>
-                <a href="#" @click.prevent="showComponent('transactions')">
-                    <i class="fas fa-exchange-alt"></i> Transactions
+                <a href="#" @click.prevent="showComponent('transactions')" class="nav-link">
+                    <i class="bi bi-cash"></i> Transactions
                 </a>
             </li>
             <li v-if="currentRole == 'user'">
-                <a href="#" @click.prevent="showComponent('history')">
-                    <i class="fas fa-history"></i> History
+                <a href="#" @click.prevent="showComponent('history')" class="nav-link">
+                    <i class="bi bi-clock-history"></i> History
                 </a>
             </li>
         </ul>
@@ -85,7 +85,7 @@ li {
     text-align: center;
 }
 
-a {
+.nav-link {
     color: white;
     text-decoration: none;
     cursor: pointer;
@@ -93,15 +93,11 @@ a {
     align-items: center;
     justify-content: center;
     padding: 10px 0;
-    transition: background-color 0.3s ease;
-}
+    transition: background color 0.3s ease;
 
-a:hover {
-    text-decoration: underline;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-a i {
-    margin-right: 8px;
+    &:hover {
+        text-decoration: underline;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 }
 </style>
