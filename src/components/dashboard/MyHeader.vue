@@ -1,53 +1,129 @@
 <template>
+
     <header :class="{ expanded: !isSidebarVisible }">
+
         <button class="toggle-btn" @click="toggleSidebar">☰</button>
+
         <div class="header-content">
+
             <div class="search-bar-container">
-                <input type="text" v-model="search" placeholder="Search" class="search-bar" />
+
+                <input type="text" v-model="search" @input="emitSearch" placeholder="Search"
+                    class="search-bar form-control" />
+
             </div>
+
             <div class="role-selection">
-                <button @click="selectRole('admin')" :class="{ active: currentRole === 'admin' }">
+
+                <button @click="selectRole('admin')" :class="{ active: currentRole === 'admin' }"
+                    class="btn btn-secondary">
+
                     Admin
+
                 </button>
-                <button @click="selectRole('user')" :class="{ active: currentRole === 'user' }">
+
+                <button @click="selectRole('user')" :class="{ active: currentRole === 'user' }"
+                    class="btn btn-secondary">
+
                     User
+
                 </button>
+
             </div>
+
+            <div class="logout-container">
+
+                <button class="logout-btn btn btn-outline-light" @click="logout">
+
+                    Logout
+
+                </button>
+
+            </div>
+
         </div>
+
     </header>
+
 </template>
 <script>
-import { EventBus } from '@/utils/EventBus'
+
+import { EventBus } from "@/utils/EventBus";
+
 export default {
+
     data() {
+
         return {
-            search: '',
-        }
+
+            search: "",
+
+        };
+
     },
+
     props: {
+
         currentRole: {
+
             type: String,
+
             required: true,
+
         },
+
         isSidebarVisible: {
+
             type: Boolean,
+
             required: true,
+
         },
+
     },
-    watch: {
-        search(newQuery) {
-            EventBus.$emit('search', newQuery)
-        },
-    },
+
     methods: {
+
         selectRole(role) {
-            this.$emit('update-role', role)
+
+            this.$emit("update-role", role);
+
+            const authRole = localStorage.getItem("role");
+
+            const isAuthenticated = Boolean(localStorage.getItem("auth"));
+
+            if (isAuthenticated && authRole === role) {
+
+                this.$router.push({ name: role, params: { component: "items" } });
+
+            } else {
+
+                alert("You do not have permission to switch to this role.");
+
+                this.$router.push({ name: "login" });
+
+                this.$emit("toggle-sidebar", false);
+
+            }
+
         },
+
         toggleSidebar() {
-            this.$emit('toggle-sidebar')
+
+            this.$emit("toggle-sidebar");
+
         },
+
+        emitSearch() {
+
+            EventBus.emit("search", this.search);
+
+        },
+
     },
-}
+
+};
+
 </script>
 <style scoped>
 header {

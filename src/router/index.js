@@ -1,22 +1,90 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/UserView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import AdminView from '../views/AdminView.vue';
+import UserView from '../views/UserView.vue';
+import LoginView from '../views/LoginView.vue';
+
 const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: HomeView
-    },
-    {
-        path: '/about',
-        name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/AdminView.vue')
-    }
-]
+
+  {
+
+    path: "/admin/:component",
+
+    name: "admin",
+
+    component: AdminView,
+
+    props: true,
+
+    meta: { requiresAuth: true, role: "admin" },
+
+  },
+
+  {
+
+    path: "/user/:component",
+
+    name: "user",
+
+    component: UserView,
+
+    props: true,
+
+    meta: { requiresAuth: true, role: "user" },
+
+  },
+
+  {
+
+    path: "/login",
+
+    name: "login",
+
+    component: LoginView,
+
+  },
+
+];
+
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
-})
-export default router
+
+  history: createWebHistory(process.env.BASE_URL),
+
+  routes,
+
+});
+
+router.beforeEach((to, from, next) => {
+
+  const isAuthenticated = Boolean(localStorage.getItem("auth"));
+
+  const userRole = localStorage.getItem("role");
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+
+    alert("You need to log in to access this page.");
+
+    next({ name: "login" });
+
+  } else if (
+
+    to.meta.requiresAuth &&
+
+    isAuthenticated &&
+
+    to.meta.role !== userRole
+
+  ) {
+
+    alert("You do not have permission to access this page.");
+
+    next(false);
+
+  } else {
+
+    next();
+
+  }
+
+});
+
+export default router;

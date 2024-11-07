@@ -2,7 +2,7 @@
     <nav class="navbar">
         <div class="navbar-brand">
             <a href="#" class="navbar-item">Simbok</a>
-        </div> 
+        </div>
         <div class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" @click.prevent="navigateTo('user')">User</a>
@@ -14,65 +14,236 @@
 </template>
 
 <script>
-    export default {
-        name: 'MyNavbar',
-        methods: {
-            navigateTo(page) {
-                this.$emit('navigate-to', page)
-            },
+export default {
+    name: 'MyNavbar',
+    methods: {
+        navigateTo(page) {
+            this.$emit('navigate-to', page)
         },
-    }
+    },
+}
 </script>
 <style scoped>
-.navbar {
+header {
+
     background-color: #4b3f6b;
-    color: white;
+
     padding: 10px 20px;
+
     display: flex;
+
     align-items: center;
-    justify-content: space-between;
+
+    height: 60px;
+
+    width: calc(100% - 200px);
+
+    position: fixed;
+
+    top: 0;
+
+    left: 200px;
+
+    z-index: 1000;
+
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap;
+
+    transition: width 0.3s ease, left 0.3s ease;
+
 }
-.navbar-brand {
-    display: flex;
-    align-items: center;
+
+header.expanded {
+
+    width: 100%;
+
+    left: 0;
+
 }
-.navbar-item {
+
+.toggle-btn {
+
+    background: none;
+
+    border: none;
+
     color: white;
-    padding: 10px 15px;
+
+    font-size: 24px;
+
     cursor: pointer;
-    transition: background-color 0.3s;
+
+    margin-right: 10px;
+
 }
-.navbar-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-}
-.navbar-menu {
+
+.header-content {
+
     display: flex;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    max-width: 1200px;
+
     align-items: center;
-    flex-wrap: wrap;
+
 }
-@media (max-width: 768px) {
-    
-    .navbar-menu {
-        width: 100%;
-        justify-content: center;
-    }
-    .navbar-start {
+
+.search-bar-container {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    flex-grow: 1;
+
+    margin-right: 8px;
+
+}
+
+.search-bar {
+
+    padding: 8px 12px;
+
+    border-radius: 5px;
+
+    border: 1px solid #ccc;
+
+    width: 250px;
+
+    font-size: 14px;
+
+    outline: none;
+
+}
+
+.role-selection {
+
+    display: flex;
+
+    justify-content: center;
+
+    background-color: #4b3f6b;
+
+    padding: 10px;
+
+}
+
+.logout-container {
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+.logout-btn {
+
+    margin-left: 10px;
+
+    padding: 5px 10px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    border: none;
+
+    transition: background-color 0.3s ease;
+
+}
+
+.logout-btn:hover {
+
+    background-color: #6b5bb8;
+
+}
+
+button.active {
+
+    background-color: #6b5bb8;
+
+}
+
+@media (max-width: 991.98px) {
+
+    header {
+
         display: flex;
+
         flex-direction: column;
-        width: 100%;
+
         align-items: center;
+        /* Center align header content */
+
+        height: auto;
+
+        padding: 10px;
+
     }
-    .navbar-item {
+
+    .header-content {
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        /* Center align header content */
+
         width: 100%;
-        text-align: center;
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* Ensure it takes full width */
+
     }
-    .navbar-item:last-child {
-        border-bottom: none;
+
+    .search-bar-container {
+
+        width: 80%;
+        /* Increase width for better visibility */
+
+        margin: 10px 0;
+        /* Add margin to separate elements */
+
     }
+
+    .search-bar {
+
+        width: 100%;
+        /* Full width search bar */
+
+        padding: 10px;
+        /* Add padding for better touch targets */
+
+    }
+
+    .role-selection {
+
+        display: flex;
+
+        justify-content: center;
+
+        width: 100%;
+
+        margin-bottom: 10px;
+
+    }
+
+    .logout-container {
+
+        display: flex;
+
+        justify-content: center;
+
+        width: 100%;
+
+    }
+
+    .toggle-btn {
+
+        margin-bottom: 4px;
+
+    }
+
 }
 </style>
