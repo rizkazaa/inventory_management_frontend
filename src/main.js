@@ -9,4 +9,4 @@ import { createPinia } from 'pinia'
 // import axios from 'axios'
 
 
-createApp(App).use(router).use(createPinia()).use(router).mount('#app')
+createApp(App).use(createPinia()).use(router).use(createPinia()).use(router).mount('#app')
