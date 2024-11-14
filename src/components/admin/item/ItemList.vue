@@ -15,9 +15,12 @@
 </template>
 
 <script>
+
+// import { useItemStore } from "../../../store/itemStore";
 import Modal from '../MyModal.vue';
 import ItemForm from "./ItemForm.vue";
 import ItemCard from "./itemCard.vue";
+
 
 export default {
     components: {
@@ -27,24 +30,36 @@ export default {
     },
     data() {
         return {
-            items: [
-                {
-                    kode: "2024001",
-                    nama: "Acer Nitro 15 AN515-58",
-                    deskripsi: "Intel Core i5 12500H, RTX 3050, RAM 8GB DDR4, LAYAR 15.6",
-                    stok: 80,
-                },
-                {
-                    kode: "2024002",
-                    nama: "Lenovo LOQ 15 15IRH8",
-                    deskripsi: "Intel Core i5 13450H, RTX 3050, RAM 8GB DDR4, LAYAR 15.6",
-                    stok: 80,
-                }
-            ],
             showForm: false,
             selectedItem: null,
             isEdit: false,
+            searchQuery: "",
         };
+    },
+    computed: {
+
+        items() {
+
+            return this.itemStore.items;
+
+        },
+
+        filteredItems() {
+
+            return this.items.filter((item) => {
+
+                return (
+
+                    item.kode.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+
+                    item.nama.toLowerCase().includes(this.searchQuery.toLowerCase())
+
+                );
+
+            });
+
+        },
+
     },
     methods: {
         showAddForm() {
@@ -83,7 +98,7 @@ export default {
             this.$emit("delete-item", kode);
         }
     }
-}
+};
 </script>
 
 <style scoped>
