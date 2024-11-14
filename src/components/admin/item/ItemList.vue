@@ -16,31 +16,49 @@
 
 <script>
 
-// import { useItemStore } from "../../../store/itemStore";
-import Modal from '../MyModal.vue';
-import ItemForm from "./ItemForm.vue";
-import ItemCard from "./itemCard.vue";
+import { useItemStore } from "@/store/itemStore";
 
+import ItemCard from "@/components/admin/item/itemCard.vue";
+
+import Modal from "@/components/admin/MyModal.vue";
+
+import ItemForm from "@/components/admin/item/ItemForm.vue";
+
+import { EventBus } from "@/utils/EventBus";
 
 export default {
+
     components: {
+
         ItemCard,
+
         Modal,
+
         ItemForm,
+
     },
+
     data() {
+
         return {
+
             showForm: false,
+
             selectedItem: null,
+
             isEdit: false,
+
             searchQuery: "",
+
         };
+
     },
+
     computed: {
 
         items() {
 
-            return this.itemStore.items;
+            return this.itemStore.items; // Mengakses state 'items' dari store Pinia
 
         },
 
@@ -61,44 +79,103 @@ export default {
         },
 
     },
+
     methods: {
+
         showAddForm() {
+
             this.selectedItem = { kode: "", nama: "", deskripsi: "", stok: "" };
+
             this.isEdit = false;
+
             this.showForm = true;
+
         },
+
         editItem(item) {
+
             this.selectedItem = { ...item };
+
             this.isEdit = true;
+
             this.showForm = true;
+
         },
+
         handleSubmit(item) {
+
             if (
+
                 item.kode &&
+
                 item.nama &&
+
                 item.deskripsi &&
+
                 item.stok !== null &&
+
                 !isNaN(item.stok)
-            )
+
+            ) {
+
                 if (this.isEdit) {
-                    const index = this.items.findIndex((i) => i.kode === item.kode);
-                    this.items[index] = item;
+
+                    this.itemStore.updateItem(item); // Memanggil action 'updateItem' dari store
+
                 } else {
-                    this.items.push(item);
+
+                    this.itemStore.addItem(item); // Memanggil action 'addItem' dari store
+
                 }
-            this.showForm = false;
+
+                this.showForm = false;
+
+            }
+
         },
+
         cancelEditForm() {
+
             this.showForm = false;
-            this.selectedItem = null;
-            this.isEdit = false;
+
         },
+
         deleteItem(kode) {
-            this.items = this.items.filter((item) => item.kode !== kode);
-            this.$emit("delete-item", kode);
-        }
-    }
+
+            this.itemStore.deleteItem(kode); // Memanggil action 'deleteItem' dari store
+
+        },
+
+        handleSearch(query) {
+
+            this.searchQuery = query;
+
+        },
+
+    },
+
+    mounted() {
+
+        EventBus.on("search", this.handleSearch);
+
+    },
+
+    beforeUnmount() {
+
+        EventBus.off("search", this.handleSearch);
+
+    },
+
+    setup() {
+
+        const itemStore = useItemStore();
+
+        return { itemStore };
+
+    },
+
 };
+
 </script>
 
 <style scoped>

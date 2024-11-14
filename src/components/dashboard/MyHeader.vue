@@ -33,7 +33,7 @@
 
             <div class="logout-container">
 
-                <button class="logout-btn btn btn-outline-light" @click="logout">
+                <button class="logout-btn btn btn-outline-light" @click="logout()">
 
                     Logout
 
@@ -83,6 +83,9 @@ export default {
     },
 
     methods: {
+        logout() {
+            this.$router.push({ name: "login" });
+        },
 
         selectRole(role) {
 
