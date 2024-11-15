@@ -1,12 +1,35 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-// import './assets/styles/global.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import router from './router'
-import { createPinia } from 'pinia'
-// import axios from 'axios'
+import { createApp } from "vue";
 
+import App from "./App.vue";
 
-createApp(App).use(createPinia()).use(router).use(createPinia()).use(router).mount('#app')
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import "bootstrap/dist/js/bootstrap.min.js";
+
+import "bootstrap-icons/font/bootstrap-icons.css";
+
+import router from "./router";
+
+import { createPinia } from 'pinia';
+
+import { createPiniaMiddleware } from './components/plugins/piniaMiddleware';
+
+import piniaPersistedstate from 'pinia-plugin-persistedstate';
+
+const pinia = createPinia();
+
+// Gunakan middleware custom Anda
+
+pinia.use(createPiniaMiddleware());
+
+// Gunakan plugin persisted state dari 'pinia-plugin-persistedstate'
+
+pinia.use(piniaPersistedstate);
+
+const app = createApp(App);
+
+app.use(pinia);
+
+app.use(router);
+
+app.mount('#app');

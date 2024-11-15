@@ -36,11 +36,11 @@ export const useItemStore = defineStore('item', {
 
   getters: {
 
-    getItemByKode: (state) => (kode) => {
+    getItemByKode: (state) => (kode) => state.items.find((item) => item.kode === kode),
 
-      return state.items.find(item => item.kode === kode);
+    totalItems: (state) => state.items.length,
 
-    }
+    availableItems: (state) => state.items.filter((item) => item.stok > 0),
 
   },
 
@@ -54,7 +54,7 @@ export const useItemStore = defineStore('item', {
 
     updateItem(updatedItem) {
 
-      const index = this.items.findIndex(item => item.kode === updatedItem.kode);
+      const index = this.items.findIndex((item) => item.kode === updatedItem.kode);
 
       if (index !== -1) {
 
@@ -66,10 +66,12 @@ export const useItemStore = defineStore('item', {
 
     deleteItem(kode) {
 
-      this.items = this.items.filter(item => item.kode !== kode);
+      this.items = this.items.filter((item) => item.kode !== kode);
 
     },
 
   },
+
+  persist: true, // Aktifkan persistensi state
 
 });
