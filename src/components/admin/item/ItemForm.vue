@@ -11,11 +11,11 @@
             </div>
             <div class="mb-3">
                 <label for="deskripsi" class="form-label">Deskripsi</label>
-                <input type="text" v-model="form.deskripsi" id="deskripsi" class="form-control" required>>
+                <input type="text" v-model="form.deskripsi" id="deskripsi" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="stok" class="form-label"></label>
-                <input type="number" v-model="form.stock" id="stock" class="form-control" required>
+                <input type="number" v-model="form.stok" id="stock" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-success">
                 {{ isEdit ? "Simpan Perubahan" : "Tambah Barang" }}
@@ -66,6 +66,7 @@ export default {
     },
     methods: {
         submitForm() {
+            console.log(this.form);
             this.$emit('submit', this.form)
         },
     },

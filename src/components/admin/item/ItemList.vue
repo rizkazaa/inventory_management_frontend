@@ -142,7 +142,8 @@ export default {
 
         deleteItem(kode) {
 
-            this.itemStore.deleteItem(kode); // Memanggil action 'deleteItem' dari store
+            this.itemStore.deleteItem(kode);
+            // Memanggil action 'deleteItem' dari store
 
         },
 

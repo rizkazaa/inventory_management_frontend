@@ -41,8 +41,8 @@ export default {
     methods: {
         showEditForm(item) {
             this.selectedItem = item
-            this.isEdit = true
-            this.showForm = true
+            this.isEdit = false
+            this.showForm = false
         },
         handleSubmit(formData) {
             this.selectedItem = formData

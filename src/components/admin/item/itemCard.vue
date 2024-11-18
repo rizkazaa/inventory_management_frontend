@@ -3,7 +3,7 @@
         <div class="card-body">
             <h3 class="title"> {{ item.nama }}</h3>
             <p class="card-text"> {{ item.deskripsi }}</p>
-            <p class="card-text stock"> Stock: {{ item.stock }}</p>
+            <p class="card-text stock"> Stock: {{ item.stok }}</p>
             <div class="buttons d-flex gap-2 mt-3">
                 <button @click="$emit('edit-item', item)" class="btn btn-success edit">Edit</button>
                 <button @click="$emit('delete-item', item.kode)" class="btn btn-danger delete">Delete</button>

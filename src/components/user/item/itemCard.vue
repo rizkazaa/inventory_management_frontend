@@ -2,7 +2,7 @@
     <div class="item-card">
         <h3> {{ item.nama }}</h3>
         <p> {{ item.deskripsi }}</p>
-        <p class="stock"> Stock: {{ item.stock }}</p>
+        <p class="stock"> Stock: {{ item.stok }}</p>
         <div class="buttons">
             <button @click="$emit('edit-item', item)" class="edit">Edit</button>
             <button @click="$emit('delete-item', item.kode)" class="delete">Delete</button>

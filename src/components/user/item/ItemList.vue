@@ -17,11 +17,11 @@
 <script>
 import { useItemStore } from "@/store/itemStore";
 
-import ItemCard from "@/components/admin/item/itemCard.vue";
+import ItemCard from "@/components/user/item/itemCard.vue";
 
 import Modal from "@/components/admin/MyModal.vue";
 
-import ItemForm from "@/components/admin/item/ItemForm.vue";
+import ItemForm from "@/components/user/item/ItemForm.vue";
 
 import { EventBus } from "@/utils/EventBus.js";
 
@@ -87,7 +87,7 @@ export default {
 
             this.isEdit = false;
 
-            this.showForm = true;
+            this.showForm = false;
 
         },
 
@@ -95,9 +95,9 @@ export default {
 
             this.selectedItem = { ...item };
 
-            this.isEdit = true;
+            this.isEdit = false;
 
-            this.showForm = true;
+            this.showForm = false;
 
         },
 
@@ -139,9 +139,10 @@ export default {
 
         },
 
-        deleteItem(kode) {
+        deleteItem() {
+            this.showForm = false // karena di user. harusnya tidak ada tentang ini. 
 
-            this.itemStore.deleteItem(kode); // Memanggil action 'deleteItem' dari store
+            // this.itemStore.deleteItem(kode); // Memanggil action 'deleteItem' dari store
 
         },
 
