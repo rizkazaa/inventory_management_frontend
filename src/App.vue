@@ -2,14 +2,15 @@
 
   <div id="app">
 
-    <Header :currentRole="currentRole" @update-role="updateRole" @toggle-sidebar="toggleSidebar"
+    <Header v-if="showHeader" :currentRole="currentRole" @update-role="updateRole" @toggle-sidebar="toggleSidebar"
       :isSidebarVisible="isSidebarVisible" />
 
-    <div class="app-content">
+    <div class="app-content" :class="{ noHeader: !showHeader }">
 
-      <Sidebar :currentRole="currentRole" :isSidebarVisible="isSidebarVisible" @showComponent="navigateTo" />
+      <Sidebar v-if="showSidebar" :currentRole="currentRole" :isSidebarVisible="isSidebarVisible"
+        @showComponent="navigateTo" />
 
-      <div class="main-content" :class="{ expanded: isSidebarVisible }">
+      <div class="main-content" :class="{ expanded: isSidebarVisible && showSidebar }">
 
         <router-view :key="$route.fullPath" :currentComponent="$route.params.component" />
 
@@ -23,10 +24,11 @@
 <script>
 
 import Header from "./components/dashboard/MyHeader.vue";
+
 import Sidebar from "./components/dashboard/SideBar.vue";
-import AdminView from "./views/AdminView.vue";
-import UserView from "./views/UserView.vue";
+
 import { EventBus } from "./utils/EventBus";
+
 export default {
 
   components: {
@@ -51,21 +53,27 @@ export default {
 
   },
 
-  watch: {
+  computed: {
 
-    "$route.name"(newRole) {
+    showHeader() {
 
-      this.currentRole = newRole;
+      return !this.$route.meta.hideHeader;
+
+    },
+
+    showSidebar() {
+
+      return !this.$route.meta.hideSidebar;
 
     },
 
   },
 
-  computed: {
+  watch: {
 
-    currentView() {
+    "$route.name"(newRole) {
 
-      return this.currentRole === "admin" ? AdminView : UserView;
+      this.currentRole = newRole;
 
     },
 
@@ -77,13 +85,23 @@ export default {
 
       this.currentRole = role;
 
-      this.navigateTo("items");
-
     },
 
     navigateTo(component) {
 
-      this.$router.push({ name: this.currentRole, params: { component } });
+      if (this.currentRole === "admin") {
+
+        this.$router.push({ name: "admin", params: { component } });
+
+      } else if (this.currentRole === "user") {
+
+        this.$router.push({ name: "user" });
+
+      } else {
+
+        this.$router.push({ name: "login" });
+
+      }
 
     },
 

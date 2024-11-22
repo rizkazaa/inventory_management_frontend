@@ -9,9 +9,7 @@
                 <label for="role">Role:</label>
 
                 <select v-model="role" id="role">
-
                     <option value="admin">Admin</option>
-
                     <option value="user">User</option>
 
                 </select>
@@ -44,11 +42,11 @@ export default {
 
         login() {
 
-            localStorage.setItem("auth", true);
+            // localStorage.setItem("auth", true);
+            // localStorage.setItem("role", this.role);
+            // this.$router.push({ name: this.role, params: { component: "items" } });
 
-            localStorage.setItem("role", this.role);
-
-            this.$router.push({ name: this.role, params: { component: "items" } });
+            console.log("role " + this.role);
 
         },
 

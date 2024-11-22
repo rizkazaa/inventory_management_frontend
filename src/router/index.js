@@ -1,27 +1,52 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import AdminView from '../views/AdminView.vue';
-import UserView from '../views/UserView.vue';
-import LoginView from '../views/LoginView.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import AdminView from "../views/AdminView.vue";
+import UserView from "../views/UserView.vue";
+import HomeView from "../views/HomeView.vue";
+import Login from "@/components/auth/Login.vue";
+import Register from "@/components/auth/Register.vue";
+import { useAuthStore } from "@/store/authStore";
 
 const routes = [
 
   {
+    path: "/",
 
-    path: "/admin/:component",
+    name: "home",
 
-    name: "admin",
+    component: HomeView,
 
-    component: AdminView,
+    meta: { hideHeader: true, hideSidebar: true },
 
-    props: true,
+    children: [
 
-    meta: { requiresAuth: true, role: "admin" },
+      {
+        path: "login",
+        name: "login",
+        component: Login,
+      },
+
+      {
+
+        path: "register",
+        name: "register",
+        component: Register,
+      },
+
+    ],
 
   },
 
   {
+    path: "/admin/:component?",
+    name: "admin",
+    component: AdminView,
+    props: true,
+    meta: { requiresAuth: true, role: "ADMIN" },
+  },
 
-    path: "/user/:component",
+  {
+
+    path: "/user/:component?",
 
     name: "user",
 
@@ -29,17 +54,7 @@ const routes = [
 
     props: true,
 
-    meta: { requiresAuth: true, role: "user" },
-
-  },
-
-  {
-
-    path: "/login",
-
-    name: "login",
-
-    component: LoginView,
+    meta: { requiresAuth: true, role: "USER" },
 
   },
 
@@ -55,29 +70,31 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
-  const isAuthenticated = Boolean(localStorage.getItem("auth"));
+  const authStore = useAuthStore();
 
-  const userRole = localStorage.getItem("role");
+  const isAuthenticated = !!authStore.token;
 
-  if (to.meta.requiresAuth && !isAuthenticated) {
+  const userRole = authStore.role;
 
-    alert("You need to log in to access this page.");
+  if (to.meta.requiresAuth) {
 
-    next({ name: "login" });
+    if (isAuthenticated) {
 
-  } else if (
+      if (userRole === to.meta.role || to.meta.role === undefined) {
 
-    to.meta.requiresAuth &&
+        next();
 
-    isAuthenticated &&
+      } else {
 
-    to.meta.role !== userRole
+        next({ name: "home" });
 
-  ) {
+      }
 
-    alert("You do not have permission to access this page.");
+    } else {
 
-    next(false);
+      next({ name: "home" });
+
+    }
 
   } else {
 

@@ -12,9 +12,9 @@
     </div>
 </template>
 <script>
-import ItemList from '@/components/admin/item/ItemList.vue';
+import ItemList from '../components/admin/item/ItemList.vue';
 import ItemForm from '@/components/admin/item/ItemForm.vue';
-import UserList from '@/components/UserList.vue';
+import UserList from '../components/user/UserList.vue';
 import TransactionList from '../components/MyTransaction.vue';
 import Modal from '../components/admin/MyModal.vue';
 export default {
