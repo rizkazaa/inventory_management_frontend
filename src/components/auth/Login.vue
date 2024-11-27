@@ -41,7 +41,7 @@
             </p>
 
         </div>
-
+        <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
     </div>
 
 </template>
